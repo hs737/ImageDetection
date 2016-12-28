@@ -1,5 +1,0 @@
-# MANIFEST.in
-# Tells the Python build tool what files to include when you ship your
-# package to the world.
-
-exclude .gitignore

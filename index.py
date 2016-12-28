@@ -13,6 +13,7 @@ ap.add_argument("-d", "--dataset", required = True, help = "path to input datase
 ap.add_argument("-s", "--shelve", required = True, help = "output shelve database")
 ap.add_argument("-q", "--query", required = True, help = "path to the query image")
 args = vars(ap.parse_args())
+print("Arguments: {}".format(args))
 
 # open the shelve database
 db = shelve.open(args["shelve"], writeback = True)
@@ -38,6 +39,7 @@ print("Found {} images".format(len(filenames)))
 
 # loop over the images
 for filename in filenames:
+    print("File found: {}".format(filename))
     image = Image.open(args["dataset"] + "/" + filename)
     image.show()
 

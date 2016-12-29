@@ -30,7 +30,11 @@ setup(
     # # packages=find_packages(),
     packages=['imagesearch', 'tests'],
     install_requires=[
-        'Click',
+        'click',
+        'scipy',
+        'numpy',
+        'pillow',
+        'imagehash',
     ],
     entry_points={
         'console_scripts': [

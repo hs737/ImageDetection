@@ -33,7 +33,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'imagesearch = imagesearch.__main__:main'
+            'imagesearch = imagesearch.commandline:cli'
         ]
     }
 )

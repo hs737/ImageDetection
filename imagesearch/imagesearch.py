@@ -1,14 +1,16 @@
 import glob
 import os
 import imagehash
-from PIL import Image
+from PIL import Image, ImageFile
 
-def search(dir_path, recursive, query_path=None):
+ImageFile.LOAD_TRUNCATED_IMAGES = True
+
+def search(dir_path, is_recursive, should_follow_links, query_path=None):
     ext = ".jpg"
     image_paths = []
 
-    for path, dirnames, files in os.walk(dir_path):
-        if not recursive:
+    for path, dirnames, files in os.walk(dir_path, followlinks=should_follow_links):
+        if not is_recursive:
             dirnames[:] = dirnames[0]
 
         image_paths += [os.path.join(path, filename) for filename in files
@@ -28,20 +30,20 @@ def search_for_queried_image(image_paths, query_path):
     images_found = []
 
     for image_path in image_paths:
-        print("Image path: {}".format(image_path))
+        # print("Image path: {}".format(image_path))
 
         image = Image.open(image_path)
         image_hash = str(imagehash.dhash(image))
 
-        print("Image path: {}, Image hash: {}, Query hash: {}, EQ: {}".format(image_path, image_hash, query_hash, query_hash == image_hash))
+        # print("Image path: {}, Image hash: {}, Query hash: {}, EQ: {}".format(image_path, image_hash, query_hash, query_hash == image_hash))
 
         if query_hash == image_hash:
-            print("File found: {}".format(image_path))
+            # print("File found: {}".format(image_path))
             images_found.append([image_path])
             # image = Image.open(image_path)
             # image.show()
 
-    print("Images found: {}".format(images_found))
+    # print("Images found: {}".format(images_found))
     return images_found
 
 def search_for_all_duplicates(image_paths):
@@ -56,7 +58,7 @@ def search_for_all_duplicates(image_paths):
         db[image_hash] = (db[image_hash] if image_hash in db else []) + [image_path]
 
     images_found = [db[image_hash] for image_hash in db if len(db[image_hash]) > 1]
-    print("Images found: {}".format(images_found))
+    # print("Images found: {}".format(images_found))
 
     return images_found
 

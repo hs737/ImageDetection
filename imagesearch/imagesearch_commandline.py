@@ -1,5 +1,12 @@
 import click
-import imagesearch
+from sys import version_info
+if version_info.major == 2:
+    # We are using Python 2.x
+    import imagesearch_business_logic as BL
+elif version_info.major == 3:
+    # We are using Python 3.x
+    import imagesearch
+    from imagesearch import imagesearch_business_logic as BL
 
 @click.command(short_help='Search for a specific image')
 @click.option('-r', '--recursive', is_flag=True,
@@ -16,4 +23,4 @@ def cli(directory, query=None, recursive=False, cache=None,
         or for duplicate images to a specific image.
     """
     # click.echo("Search called directory: {}".format(directory))
-    imagesearch.search(directory, recursive, query, follow_links)
+    BL.search(directory, recursive, query, follow_links)

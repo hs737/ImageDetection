@@ -37,6 +37,7 @@ def search(dir_path, is_recursive, should_follow_links, is_verbose, query_path=N
 
     output_images_found(images_found)
 
+@log_function
 def search_for_queried_image(image_paths, query_path):
     query_image = Image.open(query_path)
     query_hash = str(imagehash.dhash(query_image))
@@ -86,3 +87,6 @@ def output_images_found(images_found):
         #     image = Image.open(image_path)
         #     image.show()
 
+@log_function
+def remove(directory, query_path, recursive, follow_links, verbose, force):
+    pass

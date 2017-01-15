@@ -23,7 +23,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English"
     ],
-    packages=['imagesearch', 'tests'],
+    packages=['imagedetection', 'tests'],
     install_requires=[
         'click',
         'scipy',
@@ -33,7 +33,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'imagesearch = imagesearch.imagesearch_commandline:cli'
+            'imagedetection = imagedetection.imagesearch_commandline:cli'
         ]
     }
 )

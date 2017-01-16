@@ -36,7 +36,7 @@ def cli(log=None, verbose=False):
               help="Follow and resolve symbolic links")
 @click.option('-q', '--query', type=click.Path(exists=True, dir_okay=False),
               help='Path to the image that is being searched')
-@click.argument('directory', type=click.Path(exists=True))
+@click.argument('directory', type=click.Path(exists=True), nargs=-1)
 @log_function
 def search(directory, query=None, recursive=False, follow_links=False):
     """
@@ -54,7 +54,7 @@ def search(directory, query=None, recursive=False, follow_links=False):
 @click.option('-fl', '--follow_links', is_flag=True,
               help="Follow and resolve symbolic links")
 @click.argument('query', type=click.Path(exists=True, dir_okay=False))
-@click.argument('directory', type=click.Path(exists=True))
+@click.argument('directory', type=click.Path(exists=True), nargs=-1)
 @log_function
 def remove(directory, query, recursive=False, follow_links=False, force=False):
     """

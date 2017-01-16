@@ -1,6 +1,8 @@
 click==6.6
+-e git+https://github.com/hs737/ImageDetection.git@0dbebabe92febeabb1cc790fc6cde98e27939647#egg=Image_Search
 ImageHash==3.1
 numpy==1.11.3
-Pillow==3.4.2
+olefile==0.43
+Pillow==4.0.0
 PyWavelets==0.5.1
 scipy==0.18.1

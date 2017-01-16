@@ -14,7 +14,7 @@ setup(
     description=('A module that can be imported and used via the command line '
                  'to query for images with specific attributes in '
                  'a file system.'),
-    license='MIT',
+    license='BSD',
     keywords='image duplicate search detection',
     long_description=read('README.md'),
     classifiers=[
@@ -23,7 +23,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English"
     ],
-    packages=['imagesearch', 'tests'],
+    packages=['imagedetection', 'tests'],
     install_requires=[
         'click',
         'scipy',
@@ -33,7 +33,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'imagesearch = imagesearch.commandline:cli'
+            'imagedetection = imagedetection.imagesearch_commandline:cli'
         ]
     }
 )

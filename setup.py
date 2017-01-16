@@ -9,7 +9,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name='Image Search',
+    name='Image Detection',
     version='0.0.1',
     description=('A module that can be imported and used via the command line '
                  'to query for images with specific attributes in '
@@ -18,18 +18,26 @@ setup(
     keywords='image duplicate search detection',
     long_description=read('README.md'),
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 4 - Beta",
         "Environment :: Console",
-        "License :: OSI Approved :: MIT License",
-        "Natural Language :: English"
+        "License :: OSI Approved :: BSD License",
+        "Natural Language :: English",
+        "Intended Audience :: Developers",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 2.7",
+        "Topic :: Multimedia",
+        "Topic :: Utilities"
     ],
     packages=['imagedetection', 'tests'],
     install_requires=[
         'click',
+        'future',
         'scipy',
         'numpy',
         'pillow',
         'imagehash',
+        'scipy'
     ],
     entry_points={
         'console_scripts': [

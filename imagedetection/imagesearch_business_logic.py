@@ -5,6 +5,7 @@ import logging
 from PIL import Image, ImageFile
 from functools import partial
 from sys import version_info
+from builtins import input
 if version_info.major == 2:
     # We are using Python 2.x
     from imagesearch_utils import get_log_function_decorator
@@ -41,12 +42,12 @@ def remove(dir_path, query_path, is_recursive, should_follow_links, is_force):
     if is_force:
         for image_path in images_found:
             if image_path != query_path:
-                logger.debug("Removing image {}".format(image_path))
+                logger.debug("Removing image '{}'".format(image_path))
                 os.remove(image_path)
     else:
         for image_path in images_found:
             if image_path != query_path:
-                response = raw_input("Remove image {}? ".format(image_path))
+                response = input("Remove image '{}'? ".format(image_path))
                 if response.lower() == 'y':
                     os.remove(image_path)
 

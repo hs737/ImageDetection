@@ -45,6 +45,12 @@ def remove(dir_path, query_path, is_recursive, should_follow_links, is_verbose, 
             if image_path != query_path:
                 logger.debug("Removing image {}".format(image_path))
                 os.remove(image_path)
+    else:
+        for image_path in images_found:
+            if image_path != query_path:
+                response = raw_input("Remove image {}? ".format(image_path))
+                if response.lower() == 'y':
+                    os.remove(image_path)
 
 @log_function
 def get_list_of_image_paths(dir_path, is_recursive, should_follow_links, is_verbose):

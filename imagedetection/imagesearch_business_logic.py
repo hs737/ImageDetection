@@ -19,15 +19,10 @@ log_function = partial(get_log_function_decorator, logger=logger)
 
 @log_function
 def search(dir_path, is_recursive, should_follow_links, is_verbose, query_path=None):
-    ext = ".jpg"
-    image_paths = []
-
-    for path, dirnames, files in os.walk(dir_path, followlinks=should_follow_links):
-        if not is_recursive:
-            dirnames[:] = dirnames[0]
-
-        image_paths += [os.path.join(path, filename) for filename in files
-                        if filename.lower().endswith(ext.lower())]
+    image_paths = get_list_of_image_paths(dir_path,
+                                          is_recursive,
+                                          should_follow_links,
+                                          is_verbose)
 
     images_found = []
     if query_path:
@@ -36,6 +31,41 @@ def search(dir_path, is_recursive, should_follow_links, is_verbose, query_path=N
         images_found = search_for_all_duplicates(image_paths)
 
     output_images_found(images_found)
+
+@log_function
+def remove(dir_path, query_path, is_recursive, should_follow_links, is_verbose, is_force):
+    image_paths = get_list_of_image_paths(dir_path,
+                                          is_recursive,
+                                          should_follow_links,
+                                          is_verbose)
+    images_found = search_for_queried_image(image_paths, query_path)
+
+    if is_force:
+        for image_path in images_found:
+            if image_path != query_path:
+                logger.debug("Removing image {}".format(image_path))
+                os.remove(image_path)
+
+@log_function
+def get_list_of_image_paths(dir_path, is_recursive, should_follow_links, is_verbose):
+    ext = ".jpg"
+    image_paths = []
+
+    if is_recursive:
+        for path, dirnames, files in os.walk(dir_path, followlinks=should_follow_links):
+            logger.debug("Path: {}, Dir Names: {}, Files: {}".format(path, dirnames, files))
+            image_paths += [os.path.join(path, filename) for filename in files
+                            if filename.lower().endswith(ext.lower())]
+    else:
+        for image_path in os.listdir(dir_path):
+            filename = os.path.join(dir_path, image_path)
+            if os.path.isfile(filename) and filename.lower().endswith(ext.lower()):
+                logger.debug("Filename: {}".format(filename))
+                image_paths.append(filename)
+
+    logger.debug("Image paths found: {}".format(image_paths))
+    return image_paths
+
 
 @log_function
 def search_for_queried_image(image_paths, query_path):
@@ -53,11 +83,11 @@ def search_for_queried_image(image_paths, query_path):
 
         if query_hash == image_hash:
             # logger.debug("File found: {}".format(image_path))
-            images_found.append([image_path])
+            images_found.append(image_path)
             # image = Image.open(image_path)
             # image.show()
 
-    # logger.debug("Images found: {}".format(images_found))
+    logger.debug("Images found: {}".format(images_found))
     return images_found
 
 @log_function
@@ -86,7 +116,3 @@ def output_images_found(images_found):
         # for image_path in image_list:
         #     image = Image.open(image_path)
         #     image.show()
-
-@log_function
-def remove(directory, query_path, recursive, follow_links, verbose, force):
-    pass

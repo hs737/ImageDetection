@@ -10,7 +10,7 @@ if version_info.major == 2:
     from imagesearch_utils import get_log_function_decorator
 elif version_info.major == 3:
     # We are using Python 3.x
-    from imagesearch.imagesearch_utils import get_log_function_decorator
+    from imagedetection.imagesearch_utils import get_log_function_decorator
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -18,11 +18,10 @@ logger = logging.getLogger("imagesearch.business_logic")
 log_function = partial(get_log_function_decorator, logger=logger)
 
 @log_function
-def search(dir_path, is_recursive, should_follow_links, is_verbose, query_path=None):
+def search(dir_path, is_recursive, should_follow_links, query_path=None):
     image_paths = get_list_of_image_paths(dir_path,
                                           is_recursive,
-                                          should_follow_links,
-                                          is_verbose)
+                                          should_follow_links)
 
     images_found = []
     if query_path:
@@ -33,11 +32,10 @@ def search(dir_path, is_recursive, should_follow_links, is_verbose, query_path=N
     output_images_found(images_found)
 
 @log_function
-def remove(dir_path, query_path, is_recursive, should_follow_links, is_verbose, is_force):
+def remove(dir_path, query_path, is_recursive, should_follow_links, is_force):
     image_paths = get_list_of_image_paths(dir_path,
                                           is_recursive,
-                                          should_follow_links,
-                                          is_verbose)
+                                          should_follow_links)
     images_found = search_for_queried_image(image_paths, query_path)
 
     if is_force:
@@ -53,7 +51,7 @@ def remove(dir_path, query_path, is_recursive, should_follow_links, is_verbose, 
                     os.remove(image_path)
 
 @log_function
-def get_list_of_image_paths(dir_path, is_recursive, should_follow_links, is_verbose):
+def get_list_of_image_paths(dir_path, is_recursive, should_follow_links):
     ext = ".jpg"
     image_paths = []
 
@@ -115,9 +113,12 @@ def search_for_all_duplicates(image_paths):
 
 @log_function
 def output_images_found(images_found):
-    for image_list in images_found:
-        logger.debug("Image List found: {}".format(image_list))
-        print(" ".join(image_list))
+    for images in images_found:
+        logger.debug("Image List found: {} {}".format(images, type(images)))
+        if isinstance(images, list):
+            print(" ".join(images))
+        else:
+            print(images)
 
         # for image_path in image_list:
         #     image = Image.open(image_path)
